@@ -22,6 +22,7 @@ export class AuthService {
     return null;
   }
 
+  // método para gerar o token
   async login(email: string) {
     const user = await this.userService.findByEmail(email);
     return {

@@ -13,10 +13,13 @@ export class MusicsPrismaRepository implements MusicsRepository {
     const music = new Music();
     Object.assign(music, {
       ...data,
+      cover_image: data.cover_image || null,
+      music_url: data.music_url || null,
     });
 
     const newMusic = await this.prisma.music.create({
-      data: {
+      data: { ...music, userId },
+      /* data: {
         id: music.id,
         album: music.album,
         artist: music.artist,
@@ -26,11 +29,12 @@ export class MusicsPrismaRepository implements MusicsRepository {
         cover_image: music.cover_image,
         music_url: music.music_url,
         userId,
-      },
+      }, */
     });
 
     return newMusic;
   }
+
   async findOne(id: string): Promise<Music> {
     const music = await this.prisma.music.findUnique({
       where: { id },
@@ -45,14 +49,25 @@ export class MusicsPrismaRepository implements MusicsRepository {
       return acc;
     }, {});
   }
+
   async findAll(group: string): Promise<object | Music[]> {
-    const musics = await this.prisma.music.findMany();
+    const musics = await this.prisma.music.findMany({
+      /* include: { //traz o usuário da relação
+        user: {
+          select: { //permite selecionar os campos do usuário
+            name: true,
+            email: true,
+          },
+        },
+      }, */
+    });
     if (group) {
       return this.groupby(musics, group);
     }
     return musics;
   }
 
+  //para a atualização dos links das imagens e músicas vindos do Upload
   async update(data: UpdateMusicDto, musicId: string): Promise<Music> {
     const music = await this.prisma.music.update({
       where: {

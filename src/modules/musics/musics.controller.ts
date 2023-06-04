@@ -17,19 +17,21 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 
-@ApiTags('musics')
+@ApiTags('musics') //para adicionar a tag de Musics do Swagger
 @Controller('musics')
 export class MusicsController {
   constructor(private readonly musicsService: MusicsService) {}
 
   @Post('')
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard) //utilizado para validação do token nesta rota
+  @ApiBearerAuth() //utilizado para o Swagger solicitar o jwt nesta rota na documentação
   create(@Body() createMusicDTO: CreateMusicDTO, @Request() req) {
+    //@request serve para capturar o id do usuário da requisição
     return this.musicsService.create(createMusicDTO, req.user.id);
   }
 
   @Get('')
+  //para que o parâmetro group não seja obrigatório na doc do Swagger
   @ApiQuery({
     name: 'group',
     type: String,
@@ -48,19 +50,20 @@ export class MusicsController {
   @Patch('upload/:id')
   @UseInterceptors(
     FileFieldsInterceptor([
-      { name: 'cover_image', maxCount: 1 },
+      { name: 'cover_image', maxCount: 1 }, //alterar para o máximo de arquivos permitidos no upload
       { name: 'music', maxCount: 1 },
     ]),
   )
   upload(
     @UploadedFiles()
     files: {
-      cover_image?: Express.Multer.File[];
+      cover_image?: Express.Multer.File[]; // necessário instalar as tipagens do multer antes
       music?: Express.Multer.File[];
     },
     @Param('id') id: string,
   ) {
     const { cover_image, music } = files;
-    return this.musicsService.upload(cover_image[0], music[0], id);
+
+    return this.musicsService.upload(cover_image[0], music[0], id); //caso venha mais arquivos, é possível pegá-los nas outras posições dos arrays.
   }
 }

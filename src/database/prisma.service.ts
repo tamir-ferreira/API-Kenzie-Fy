@@ -1,3 +1,5 @@
+// Necessário criar este arquivo para utilizar o Prisma
+
 import { INestApplication, Injectable, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 

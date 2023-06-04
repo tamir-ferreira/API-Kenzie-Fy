@@ -1,6 +1,7 @@
-import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { CreateUserDto } from './create-user.dto';
-import {
+import { PartialType } from '@nestjs/swagger';
+// import { ApiProperty, PartialType } from '@nestjs/swagger';
+/* import {
   IsEmail,
   IsNotEmpty,
   IsOptional,
@@ -8,7 +9,7 @@ import {
   MinLength,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { hashSync } from 'bcryptjs';
+import { hashSync } from 'bcryptjs'; */
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {}
 

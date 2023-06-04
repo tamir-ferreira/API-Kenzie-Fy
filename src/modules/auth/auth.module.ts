@@ -9,7 +9,7 @@ import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
-    UsersModule,
+    UsersModule, //necessário para utilizar a validação no authService se o usuário existe (verificando com o UserService)
     PassportModule,
     JwtModule.register({
       secret: process.env.SECRET_KEY,

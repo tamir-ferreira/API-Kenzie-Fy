@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { Strategy } from 'passport-local';
+import { Strategy } from 'passport-local'; //importando a Strategy para validação do e-mail e senha
 import { PassportStrategy } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 

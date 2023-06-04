@@ -10,6 +10,7 @@ import { UsersRepository } from './repositories/users.repository';
 @Injectable()
 export class UsersService {
   constructor(private usersRepository: UsersRepository) {}
+
   async create(createUserDto: CreateUserDto) {
     const findUser = await this.usersRepository.findByEmail(
       createUserDto.email,
@@ -41,11 +42,20 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    const user = await this.usersRepository.update(id, updateUserDto);
-    return user;
+    const user = await this.usersRepository.findOne(id);
+    if (!user) {
+      throw new NotFoundException('User not found !');
+    }
+    const updatedUser = await this.usersRepository.update(id, updateUserDto);
+
+    return updatedUser;
   }
 
   async remove(id: string) {
+    const user = await this.usersRepository.findOne(id);
+    if (!user) {
+      throw new NotFoundException('User not found !');
+    }
     await this.usersRepository.delete(id);
     return;
   }

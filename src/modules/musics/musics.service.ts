@@ -25,6 +25,7 @@ export class MusicsService {
     return findMusic;
   }
 
+  // aqui vai receber os uploads das imagens e músicas
   async upload(
     cover_image: Express.Multer.File,
     music: Express.Multer.File,
@@ -46,14 +47,17 @@ export class MusicsService {
       cover_image.path,
       { resource_type: 'image' },
       (error, result) => {
+        console.log(error);
         return result;
       },
     );
 
     const uploadMusic = await cloudinary.uploader.upload(
       music.path,
-      { resource_type: 'video' },
+      { resource_type: 'video' }, //utilizado também para subir músicas mp3, conforme a doc do cloudinary
+      // { resource_type: 'raw' }, //utilizado subir as músicas com um buffer no cloudinary, não daria para manipular ele lá
       (error, result) => {
+        console.log(error);
         return result;
       },
     );
@@ -68,6 +72,7 @@ export class MusicsService {
       musicId,
     );
 
+    //apaga os arquivos da pasta tmp
     unlink(cover_image.path, (error) => {
       if (error) console.log(error);
     });

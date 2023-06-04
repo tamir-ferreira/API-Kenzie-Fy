@@ -15,7 +15,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
-@ApiTags('users')
+@ApiTags('users') //para adicionar a tag de Users do Swagger
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -26,8 +26,8 @@ export class UsersController {
   }
 
   @Get('')
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth() //utilizado para o Swagger solicitar o jwt nesta rota na documentação
+  @UseGuards(JwtAuthGuard) //utilizado para validar o token nesta rota
   findAll() {
     return this.usersService.findAll();
   }

@@ -6,9 +6,6 @@ import { UpdateMusicDto } from '../../dto/update-music.dto';
 
 @Injectable()
 export class MusicsInMemoryRepository implements MusicsRepository {
-  update(data: UpdateMusicDto, musicId: string): Promise<Music> {
-    throw new Error('Method not implemented.');
-  }
   private database: Music[] = [];
 
   async create(data: CreateMusicDTO, userId: string): Promise<Music> {
@@ -41,5 +38,9 @@ export class MusicsInMemoryRepository implements MusicsRepository {
       return this.groupby(this.database, group);
     }
     return this.database;
+  }
+
+  update(data: UpdateMusicDto, musicId: string): Promise<Music> {
+    throw new Error('Method not implemented.');
   }
 }

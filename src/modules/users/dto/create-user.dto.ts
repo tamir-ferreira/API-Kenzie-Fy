@@ -3,18 +3,18 @@ import { hashSync } from 'bcryptjs';
 import { Transform } from 'class-transformer';
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 
-// data tranfer object
+// DTO - data transfer object
 export class CreateUserDto {
   @ApiProperty({
     description: 'Nome do usuário',
     type: String,
     default: 'Felipe Silva',
   })
-  @IsString()
+  @IsString({ message: 'deve ser uma string' })
   @IsNotEmpty()
   name: string;
 
-  @ApiProperty()
+  @ApiProperty() //utilizado para mostrar na doc do Swagger que isso é uma propriedade da API
   @IsEmail()
   @IsNotEmpty()
   email: string;
@@ -23,8 +23,11 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(8)
-  @Transform(({ value }: { value: string }) => hashSync(value, 10), {
-    groups: ['transform'],
-  })
+  @Transform(
+    ({ value }: { value: string }) => hashSync(value, 10),
+
+    //necessário para fazer as outras validações, antes de passar para o hash da senha
+    { groups: ['transform'] },
+  )
   password: string;
 }

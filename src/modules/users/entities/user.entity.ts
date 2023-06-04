@@ -6,6 +6,7 @@ export class User {
   name: string;
   email: string;
 
+  // utilizado em conjunto com o plainToInstance do class-transformer lá no repository
   @Exclude()
   password: string;
 
