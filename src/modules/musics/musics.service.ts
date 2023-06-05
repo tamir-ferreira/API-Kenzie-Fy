@@ -62,8 +62,6 @@ export class MusicsService {
       },
     );
 
-    console.log(uploadImage, uploadMusic);
-
     const updateMusic = await this.musicRepository.update(
       {
         cover_image: uploadImage.secure_url,
