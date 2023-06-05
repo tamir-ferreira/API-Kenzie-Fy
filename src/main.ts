@@ -7,9 +7,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   //habilitar o cors e configurar quem pode acessar a API
-  app.enableCors({
+  /* app.enableCors({
     origin: 'http://localhost:3001',
-  });
+  }); */
+  app.enableCors();
 
   //configuração para o Swagger
   const config = new DocumentBuilder()
